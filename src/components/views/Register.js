@@ -35,17 +35,18 @@ FormField.propTypes = {
   onChange: PropTypes.func
 };
 
-const Login = props => {
+const Register = props => {
   const history = useHistory();
   const [password, setPassword] = useState(null);
   const [username, setUsername] = useState(null);
   const [msg, setMsg] = useState(null);
 
-  const doLogin = async () => {
+  const doRegister = async () => {
     try {
       const requestBody = JSON.stringify({username, password});
-      const response = await api.post('/login', requestBody);
-      console.log(response);
+
+      const response = await api.post('/users', requestBody);
+
       // Get the returned user and update a new object.
       const user = new User(response.data);
 
@@ -55,24 +56,17 @@ const Login = props => {
 
       // Login successfully worked --> navigate to the route /game in the GameRouter
       history.push(`/game`);
-      
-      
     } catch (error) {
       const response = error.response;
       setMsg(response.data.message);
-      // alert(`Something went wrong during the login: \n${handleError(error)}`);
     }
-  };
-
-  const toRegister = async () => {
-    history.push(`/register`);
   };
 
   return (
     <BaseContainer>
       <div className="login container">
         <div className="login form">
-          
+        
           <FormField
             label="Username"
             value={username}
@@ -88,16 +82,16 @@ const Login = props => {
             <Button
               disabled={!username || !password}
               width="100%"
-              onClick={() => doLogin()}
+              onClick={() => doRegister()}
             >
-              Login
+              Register
             </Button>
-            <Button
+            {/* <Button
               width="100%"
               onClick={() => toRegister()}
             >
               Register
-            </Button>
+            </Button> */}
           </div>
         </div>
       </div>
@@ -109,4 +103,4 @@ const Login = props => {
  * You can get access to the history object's properties via the withRouter.
  * withRouter will pass updated match, location, and history props to the wrapped component whenever it renders.
  */
-export default Login;
+export default Register;

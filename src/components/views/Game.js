@@ -7,6 +7,8 @@ import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
 import "styles/views/Game.scss";
 
+
+
 const Player = ({user}) => (
   <div className="player container">
     <div className="player username">{user.username}</div>
@@ -30,9 +32,22 @@ const Game = () => {
   // more information can be found under https://reactjs.org/docs/hooks-state.html
   const [users, setUsers] = useState(null);
 
-  const logout = () => {
+  const logout = async() => {
+    api.put('/logout/' + localStorage.getItem("userId"))
+      .then(response => {
+        console.log(response);
+      })
+      .catch(err => {
+        console.error(err);
+      })
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
     history.push('/login');
+  }
+
+
+  const toProfile = (userId) => {
+    history.push('/profile', userId);
   }
 
   // the effect hook can be used to react to change in your component.
@@ -79,7 +94,10 @@ const Game = () => {
       <div className="game">
         <ul className="game user-list">
           {users.map(user => (
-            <Player user={user} key={user.id}/>
+            <div onClick={() => toProfile(user.id)}>
+              <Player user={user} key={user.id}/>
+            </div>
+            
           ))}
         </ul>
         <Button
@@ -94,7 +112,7 @@ const Game = () => {
 
   return (
     <BaseContainer className="game container">
-      <h2>Happy Coding!</h2>
+      <h2>Users Overview!</h2>
       <p className="game paragraph">
         Get all users from secure endpoint:
       </p>
