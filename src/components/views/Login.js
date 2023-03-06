@@ -37,66 +37,48 @@ FormField.propTypes = {
 
 const Login = props => {
   const history = useHistory();
-  const [password, setPassword] = useState(null);
+  const [name, setName] = useState(null);
   const [username, setUsername] = useState(null);
-  const [msg, setMsg] = useState(null);
 
   const doLogin = async () => {
     try {
-      const requestBody = JSON.stringify({username, password});
-      const response = await api.post('/login', requestBody);
-      console.log(response);
+      const requestBody = JSON.stringify({username, name});
+      const response = await api.post('/users', requestBody);
+
       // Get the returned user and update a new object.
       const user = new User(response.data);
 
       // Store the token into the local storage.
       localStorage.setItem('token', user.token);
-      localStorage.setItem('userId', user.id);
 
       // Login successfully worked --> navigate to the route /game in the GameRouter
       history.push(`/game`);
-      
-      
     } catch (error) {
-      const response = error.response;
-      setMsg(response.data.message);
-      // alert(`Something went wrong during the login: \n${handleError(error)}`);
+      alert(`Something went wrong during the login: \n${handleError(error)}`);
     }
-  };
-
-  const toRegister = async () => {
-    history.push(`/register`);
   };
 
   return (
     <BaseContainer>
       <div className="login container">
         <div className="login form">
-          
           <FormField
             label="Username"
             value={username}
             onChange={un => setUsername(un)}
           />
           <FormField
-            label="Password"
-            value={password}
-            onChange={n => setPassword(n)}
+            label="Name"
+            value={name}
+            onChange={n => setName(n)}
           />
-          <div style={{color: 'red'}}>{msg}</div>
           <div className="login button-container">
             <Button
-              disabled={!username || !password}
+              disabled={!username || !name}
               width="100%"
               onClick={() => doLogin()}
             >
               Login
-            </Button>
-            <Button
-              width="100%"
-              onClick={() => toRegister()}
-            >
-              Register
             </Button>
           </div>
         </div>
