@@ -193,7 +193,7 @@ const Profile = () => {
     }
 
     fetchData();
-  }, []);
+  }, [history.location.state]);
 
   let content = <Spinner/>;
 
