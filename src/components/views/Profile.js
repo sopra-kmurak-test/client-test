@@ -91,6 +91,11 @@ const Profile = () => {
         alert("Please enter the date in the format 'yyyy-mm-dd'");
         return;
       }
+      const formattedDate = dateFormat(birthday);
+      if (formattedDate === null) {
+        alert("Please enter a valid date");
+        return;
+      }
     
       const updatedUser = { ...user, birthday: birthday };
       setUser(updatedUser);
@@ -124,14 +129,29 @@ const Profile = () => {
 
   const dateFormat = (date) => {
     if(!date) return date;
-    date = new Date(date);
-    const year = date.getFullYear();
-    const month = showTime(date.getMonth() + 1);
-    const day = showTime(date.getDate()); 
-    const str = year + '-' + month + '-' + day
-    return str;
+    // date = new Date(date);
+    // const year = date.getFullYear();
+    // const month = showTime(date.getMonth() + 1);
+    // const day = showTime(date.getDate()); 
+    // const str = year + '-' + month + '-' + day
+    // return str;
 
-  }
+    const parts = date.split('-');
+    const year = parseInt(parts[0]);
+    const month = parseInt(parts[1]) - 1;
+    const day = parseInt(parts[2]);
+
+    const isValid = year >= 0 && year <= 9999 &&
+                  month >= 0 && month <= 11 &&
+                  day >= 1 && day <= new Date(year, month + 1, 0).getDate();
+
+    if (!isValid) {
+      return null;
+    }
+
+  const str = year + '-' + showTime(month + 1) + '-' + showTime(day);
+  return str;
+}
 
  const showTime = (t) => {
     return t > 10 ? t : '0' + t
@@ -187,19 +207,19 @@ const Profile = () => {
           onBlur={un => setUsername(un)}
         />
         <FormField
-          label="Birthday"
+          label="Birth date "
           defaultValue={dateFormat(user.birthday)}
           onBlur={un => setBirthday(un)}
           disabled={editable}
           placeholder="yyyy-MM-dd"
         />
         <FormField
-          label="Status"
+          label="Online status"
           value={user.status}
           disabled={true}
         />
         <FormField
-          label="CreationDate"
+          label="Creation Date"
           value={timeFormat(user.creation_date)}
           disabled={true}
         />

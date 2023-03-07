@@ -60,7 +60,7 @@ const Login = props => {
     } catch (error) {
       const response = error.response;
       setMsg(response.data.message);
-      // alert(`Something went wrong during the login: \n${handleError(error)}`);
+      alert(`Something went wrong during the login: \n${handleError(error)}`);
     }
   };
 
@@ -79,6 +79,7 @@ const Login = props => {
             onChange={un => setUsername(un)}
           />
           <FormField
+
             label="Password"
             value={password}
             onChange={n => setPassword(n)}
