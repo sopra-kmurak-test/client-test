@@ -40,8 +40,9 @@ const Game = () => {
       .catch(err => {
         console.error(err);
       })
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    localStorage.clear()
+    // localStorage.removeItem('token');
+    // localStorage.removeItem('user');
     history.push('/login');
   }
 
