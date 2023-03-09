@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {api} from 'helpers/api';
+import {api,handleError} from 'helpers/api';
 import User from 'models/User';
 import {useHistory} from 'react-router-dom';
 import {Button} from 'components/ui/Button';
@@ -59,8 +59,13 @@ const Register = props => {
     } catch (error) {
       const response = error.response;
       setMsg(response.data.message);
+      alert(`Username is not unique: \n${handleError(error)}`);
     }
   };
+
+  const isInputValid = () => {
+    return username.trim() !== '' && password.trim() !== '';
+  }
 
   return (
     <BaseContainer>
@@ -80,7 +85,7 @@ const Register = props => {
           <div style={{color: 'red'}}>{msg}</div>
           <div className="login button-container">
             <Button
-              disabled={!username || !password}
+              disabled={!username || !password || !isInputValid()}
               width="100%"
               onClick={() => doRegister()}
             >

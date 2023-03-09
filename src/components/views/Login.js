@@ -60,7 +60,7 @@ const Login = props => {
     } catch (error) {
       const response = error.response;
       setMsg(response.data.message);
-      alert(`Something went wrong during the login: \n${handleError(error)}`);
+      alert(`Username or Password is not right. \n${handleError(error)}`);
     }
   };
 
