@@ -1,111 +1,105 @@
-import React, {useState} from 'react';
-import {api,handleError} from 'helpers/api';
-import User from 'models/User';
-import {useHistory} from 'react-router-dom';
-import {Button} from 'components/ui/Button';
-import 'styles/views/Login.scss';
-import BaseContainer from "components/ui/BaseContainer";
-import PropTypes from "prop-types";
+import {Button, Col, Form, Input, Row, message} from "antd";
+import style from '@/styles/login.module.less'
+import {useRouter} from "next/router";
+import {useState} from "react";
+import {register} from "@/api/user";
 
-/*
-It is possible to add multiple components inside a single file,
-however be sure not to clutter your files with an endless amount!
-As a rule of thumb, use one file per component and only add small,
-specific components that belong to the main one in the same file.
- */
-const FormField = props => {
-  return (
-    <div className="login field">
-      <label className="login label">
-        {props.label}
-      </label>
-      <input
-        className="login input"
-        placeholder="enter here.."
-        value={props.value}
-        onChange={e => props.onChange(e.target.value)}
-      />
-    </div>
-  );
-};
+export default function Login() {
+  const router = useRouter()
+  const [form] = Form.useForm();
+  const [passwordError, setPasswordError] = useState(false);
 
-FormField.propTypes = {
-  label: PropTypes.string,
-  value: PropTypes.string,
-  onChange: PropTypes.func
-};
+  const onFinish = (values) => {
+    register(values).then(response => {
+      if (response.success === 'false') {
+        message.error(response.reason)
+      } else {
+        message.info('Register successfully!')
+        router.push('/login')
+      }
+    })
+  }
 
-const Register = props => {
-  const history = useHistory();
-  const [password, setPassword] = useState(null);
-  const [username, setUsername] = useState(null);
-  const [msg, setMsg] = useState(null);
+  const handlePasswordConfirm = (rule, value, callback) => {
+    const password = form.getFieldValue('password');
 
-  const doRegister = async () => {
-    try {
-      const requestBody = JSON.stringify({username, password});
-
-      const response = await api.post('/users', requestBody);
-
-      // Get the returned user and update a new object.
-      const user = new User(response.data);
-
-      // Store the token into the local storage.
-      localStorage.setItem('token', user.token);
-      localStorage.setItem('userId', user.id);
-
-      // Login successfully worked --> navigate to the route /game in the GameRouter
-      history.push(`/game`);
-    } catch (error) {
-      const response = error.response;
-      setMsg(response.data.message);
-      alert(`Username is not unique: \n${handleError(error)}`);
+    if (value && value !== password) {
+      setPasswordError(true);
+      callback('The passwords you entered do not match!');
+    } else {
+      setPasswordError(false);
+      callback();
     }
   };
 
-  const isInputValid = () => {
-    return username.trim() !== '' && password.trim() !== '';
-  }
-
   return (
-    <BaseContainer>
-      <div className="login container">
-        <div className="login form">
-        
-          <FormField
-            label="Username"
-            value={username}
-            onChange={un => setUsername(un)}
-          />
-          <FormField
-            label="Password"
-            value={password}
-            onChange={n => setPassword(n)}
-          />
-          <div style={{color: 'red'}}>{msg}</div>
-          <div className="login button-container">
-            <Button
-              disabled={!username || !password || !isInputValid()}
-              width="100%"
-              onClick={() => doRegister()}
+      <div className={style.container}>
+        <div className={style.main}>
+          <p className={style.formTitle}>Please Login / <span className={style.highlight}>Register</span> !</p>
+          <Form
+              name="loginForm"
+              style={{ width: '400px', textAlign: "center" }}
+              onFinish={onFinish}
+              form={form}
+          >
+            <Form.Item
+                name="username"
+                rules={[{ required: true, message: "please input your username." }]}
             >
-              Register
-            </Button>
-            {/* <Button
-              width="100%"
-              onClick={() => toRegister()}
+              <Input style={{ width: '240px' }} size={"large"} placeholder={"Username"}/>
+            </Form.Item>
+
+            <Form.Item
+                name="password"
+                rules={[{ required: true, message: "please input your password." }]}
             >
-              Register
-            </Button> */}
-          </div>
+              <Input.Password style={{ width: '240px' }} size={"large"} placeholder={"Password"}/>
+            </Form.Item>
+
+            <Form.Item
+                name="repeatPassword"
+                dependencies={['password']}
+                hasFeedback
+                validateStatus={passwordError ? 'error' : ''}
+                rules={[
+                    { required: true, message: "please input your password." },
+                  () => ({
+                    validator(_, value, callback) {
+                      handlePasswordConfirm(_, value, callback);
+                    },
+                  }),
+                  ]}
+            >
+              <Input.Password style={{ width: '240px' }} size={"large"} placeholder={"Repeat Password"}/>
+            </Form.Item>
+
+            <Form.Item
+                name="email"
+            >
+              <Input style={{ width: '240px' }} size={"large"} placeholder={"Enter E-mail"} rules={[{ required: true, message: "please input your Email." }]}/>
+            </Form.Item>
+
+            <Form.Item
+                name="birthday"
+            >
+              <Input style={{ width: '240px' }} size={"large"} placeholder={"Enter Birthday (optional)"}/>
+            </Form.Item>
+
+            <Row style={{ marginTop: '48px' }}>
+              <Col span={12}>
+                <Button onClick={() => router.push('/login')} style={{ borderColor: '#6F3BF5', color: '#6F3BF5',  width: 160 }} shape={"round"} size={"large"} htmlType="submit">
+                  Login
+                </Button>
+              </Col>
+
+              <Col span={12}>
+                <Button htmlType={"submit"} style={{ backgroundColor: '#6F3BF5', width: 160 }} type="primary" shape={"round"} size={"large"}>
+                  Register
+                </Button>
+              </Col>
+            </Row>
+          </Form>
         </div>
       </div>
-    </BaseContainer>
-  );
-};
-
-/**
- * You can get access to the history object's properties via the withRouter.
- * withRouter will pass updated match, location, and history props to the wrapped component whenever it renders.
- */
-export default Register;
+  )
+}
