@@ -1,113 +1,68 @@
-import React, {useState} from 'react';
-import {api, handleError} from 'helpers/api';
-import User from 'models/User';
-import {useHistory} from 'react-router-dom';
-import {Button} from 'components/ui/Button';
-import 'styles/views/Login.scss';
-import BaseContainer from "components/ui/BaseContainer";
-import PropTypes from "prop-types";
+import {Button, Col, Form, Input, message, Row} from "antd";
+import style from '@/styles/login.module.less'
+import {useRouter} from "next/router";
+import {login} from "@/api/user";
+import {useDispatch} from "react-redux";
+import {handleLogin} from "@/store/modules/user";
+import Cookies from 'js-cookie'
 
-/*
-It is possible to add multiple components inside a single file,
-however be sure not to clutter your files with an endless amount!
-As a rule of thumb, use one file per component and only add small,
-specific components that belong to the main one in the same file.
- */
-const FormField = props => {
-  return (
-    <div className="login field">
-      <label className="login label">
-        {props.label}
-      </label>
-      <input
-        className="login input"
-        placeholder="enter here.."
-        value={props.value}
-        onChange={e => props.onChange(e.target.value)}
-      />
-    </div>
-  );
-};
+export default function Login() {
+  const router = useRouter()
+  const dispatch = useDispatch()
 
-FormField.propTypes = {
-  label: PropTypes.string,
-  value: PropTypes.string,
-  onChange: PropTypes.func
-};
-
-const Login = props => {
-  const history = useHistory();
-  const [password, setPassword] = useState(null);
-  const [username, setUsername] = useState(null);
-  const [msg, setMsg] = useState(null);
-
-  const doLogin = async () => {
-    try {
-      const requestBody = JSON.stringify({username, password});
-      const response = await api.post('/login', requestBody);
-      console.log(response);
-      // Get the returned user and update a new object.
-      const user = new User(response.data);
-
-      // Store the token into the local storage.
-      localStorage.setItem('token', user.token);
-      localStorage.setItem('userId', user.id);
-
-      // Login successfully worked --> navigate to the route /game in the GameRouter
-      history.push(`/game`);
-      
-      
-    } catch (error) {
-      const response = error.response;
-      setMsg(response.data.message);
-      alert(`Username or Password is not right. \n${handleError(error)}`);
-    }
-  };
-
-  const toRegister = async () => {
-    history.push(`/register`);
-  };
+  const onFinish = (values) => {
+    login(values).then((response) => {
+      if (response.success === 'false') {
+        message.error('Login failed!')
+      } else {
+        message.info('Login successfully!')
+        Cookies.set('token', response.token)
+        dispatch(handleLogin(values))
+        router.push('/').then(() => {
+          window.location.reload();
+        });
+      }
+    })
+  }
 
   return (
-    <BaseContainer>
-      <div className="login container">
-        <div className="login form">
-          
-          <FormField
-            label="Username"
-            value={username}
-            onChange={un => setUsername(un)}
-          />
-          <FormField
+      <div className={style.container}>
+        <div className={style.main}>
+          <p className={style.formTitle}>Please <span className={style.highlight}>Login</span> / Register !</p>
+          <Form
+              name="loginForm"
+              style={{ width: '400px', textAlign: "center" }}
+              onFinish={onFinish}
+          >
+            <Form.Item
+                name="username"
+                rules={[{ required: true, message: "please input your username." }]}
+            >
+              <Input style={{ width: '240px' }} size={"large"} placeholder={"Username"}/>
+            </Form.Item>
 
-            label="Password"
-            value={password}
-            onChange={n => setPassword(n)}
-          />
-          <div style={{color: 'red'}}>{msg}</div>
-          <div className="login button-container">
-            <Button
-              disabled={!username || !password}
-              width="100%"
-              onClick={() => doLogin()}
+            <Form.Item
+                name="password"
+                rules={[{ required: true, message: "please input your password." }]}
             >
-              Login
-            </Button>
-            <Button
-              width="100%"
-              onClick={() => toRegister()}
-            >
-              Register
-            </Button>
-          </div>
+              <Input.Password style={{ width: '240px' }} size={"large"} placeholder={"Password"}/>
+            </Form.Item>
+
+            <Row style={{ marginTop: '48px' }}>
+              <Col span={12}>
+                <Button style={{ backgroundColor: '#6F3BF5', width: 160 }} shape={"round"} type="primary" size={"large"} htmlType="submit">
+                  Login
+                </Button>
+              </Col>
+
+              <Col span={12}>
+                <Button onClick={() => router.push('/register')} style={{ borderColor: '#6F3BF5', color: '#6F3BF5',  width: 160 }} shape={"round"} size={"large"}>
+                  Register
+                </Button>
+              </Col>
+            </Row>
+          </Form>
         </div>
       </div>
-    </BaseContainer>
-  );
-};
-
-/**
- * You can get access to the history object's properties via the withRouter.
- * withRouter will pass updated match, location, and history props to the wrapped component whenever it renders.
- */
-export default Login;
+  )
+}
