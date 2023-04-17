@@ -1,11 +1,10 @@
-import styles from "@/styles/question.create.module.less";
+import styles from "@/styles/views/question.create.less";
 import {useRouter} from "next/router";
 import {Button, Card, Col, Divider, Form, Image, Input, message, Row} from "antd";
-import React, {useEffect, useState} from "react";
-import {getTopComments, insertComment} from "@/api/comment";
-import {getAnswer} from "@/api/answer";
+import React, {useState} from "react";
+import {getTopComments, insertComment} from "@/helpers/comment";
 import axios from "axios";
-import useAuth from "@/utils/auth";
+import useAuth from "@/helpers/auth";
 
 const requests = axios.create({
   baseURL: process.env.API_HOST // Change to your desired host and port

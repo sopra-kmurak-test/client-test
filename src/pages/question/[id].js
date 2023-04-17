@@ -1,13 +1,13 @@
 import {useRouter} from "next/router";
-import styles from "@/styles/question.create.module.less";
+import styles from "@/styles/views/question.create.less";
 import {Button, Card, Col, Divider, Image, message, Pagination, Popover, Row} from "antd";
 import {CommentOutlined, LikeTwoTone} from "@ant-design/icons";
 import {useState} from "react";
-import {evaluateQuestion} from "@/api/question";
+import {evaluateQuestion} from "@/helpers/question";
 import moment from "moment/moment";
-import {evaluate, getSomeAnswerNew} from "@/api/answer";
+import {evaluate, getSomeAnswerNew} from "@/helpers/answer";
 import axios from "axios";
-import {translate} from "@/api/translator";
+import {translate} from "@/helpers/translator";
 
 const requests = axios.create({
   baseURL: process.env.API_HOST // Change to your desired host and port
