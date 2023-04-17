@@ -1,10 +1,10 @@
-import styles from "@/styles/question.create.module.less";
+import styles from "@/styles/views/question.create.less";
 import {useRouter} from "next/router";
 import {Button, Card, Form, Input, message} from "antd";
 import {useEffect, useState} from "react";
-import {getQuestion} from "@/api/question";
-import {newAnswer} from "@/api/answer";
-import useAuth from "@/utils/auth";
+import {getQuestion} from "@/helpers/question";
+import {newAnswer} from "@/helpers/answer";
+import useAuth from "@/helpers/auth";
 import axios from "axios";
 
 const requests = axios.create({
