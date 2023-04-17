@@ -1,4 +1,4 @@
-import requests from "@/utils/requests";
+import requests from "@/helpers/requests";
 
 export function getTopComments(params) {
   return requests.get('/comment/getTopComments', {
