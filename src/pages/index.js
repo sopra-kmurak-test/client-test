@@ -1,9 +1,9 @@
-import styles from "@/styles/home.module.less";
-import Content from "@/components/Content";
+import styles from "@/styles/views/home.less";
+import Content from "@/styles/ui/content.less";
 import {Button, message, Pagination} from "antd";
 import {useRouter} from "next/router";
 import {useEffect, useState} from "react";
-import {getTotalPageCount, listQuestions} from "@/api/question";
+import {getTotalPageCount, listQuestions} from "@/helpers/question";
 
 export default function Home() {
   const router = useRouter()
