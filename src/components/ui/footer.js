@@ -1,4 +1,4 @@
-import styles from "@/components/Footer/footer.module.less";
+import styles from "@/styles/ui/footer.less";
 import {Button, Col, Row} from "antd";
 import {useRouter} from "next/router";
 import {useEffect, useState} from "react";
