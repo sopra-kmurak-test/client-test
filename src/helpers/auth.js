@@ -1,6 +1,5 @@
 import {useEffect, useState} from "react";
 import {useRouter} from "next/router";
-import {message} from "antd";
 import Cookies from 'js-cookie'
 
 export default function useAuth() {
