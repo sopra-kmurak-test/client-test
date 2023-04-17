@@ -1,4 +1,4 @@
-import requests from "@/utils/requests";
+import requests from "@/helpers/requests";
 
 export function getTotalPageCount() {
   return requests.get('/question/getTotalPageCount')

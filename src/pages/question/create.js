@@ -1,8 +1,8 @@
 import {Button, Card, Form, Input, message} from "antd";
-import styles from "@/styles/question.create.module.less";
-import {newQuestion} from "@/api/question";
+import styles from "@/styles/views/question.create.less";
+import {newQuestion} from "@/helpers/question";
 import {useRouter} from "next/router";
-import useAuth from "@/utils/auth";
+import useAuth from "@/helpers/auth";
 
 const Create = () => {
   useAuth()
