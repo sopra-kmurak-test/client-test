@@ -1,7 +1,7 @@
 import "@/styles/globals.less";
-import Layout from "@/layout";
+import Layout from "@/components/ui/layout";
 import { Provider } from "react-redux";
-import store from "@/store";
+import store from "@/components/ui/store";
 
 function MyApp({ Component, pageProps }) {
   return (
