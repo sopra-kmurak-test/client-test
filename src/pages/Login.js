@@ -1,7 +1,7 @@
 import {Button, Col, Form, Input, message, Row} from "antd";
-import style from '@/styles/login.module.less'
+import style from '@/styles/views/login.less'
 import {useRouter} from "next/router";
-import {login} from "@/api/user";
+import {login} from "@/helpers/user";
 import {useDispatch} from "react-redux";
 import {handleLogin} from "@/store/modules/user";
 import Cookies from 'js-cookie'
