@@ -1,8 +1,8 @@
 import {Button, Col, Form, Input, Row, message} from "antd";
-import style from '@/styles/login.module.less'
+import style from '@/styles/views/login.less'
 import {useRouter} from "next/router";
 import {useState} from "react";
-import {register} from "@/api/user";
+import {register} from "@/helpers/user";
 
 export default function Login() {
   const router = useRouter()
