@@ -1,9 +1,9 @@
-import requests from "@/utils/requests";
+import requests from "@/helpers/requests";
 
 export function register(data) {
-  return requests.post("/usr/register", data);
+  return requests.post("/user/register", data);
 }
 
 export function login(data) {
-  return requests.post("/usr/login", data);
+  return requests.post("/user/login", data);
 }
