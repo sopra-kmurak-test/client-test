@@ -1,8 +1,8 @@
-import styles from "@/styles/search.module.less";
+import styles from "@/styles/views/search.less";
 import {Button, Card, Col, Form, Input, Row} from "antd";
 import {SearchOutlined} from "@ant-design/icons";
-import {search} from "@/api/search";
-import {useEffect, useState} from "react";
+import {search} from "@/helpers/search";
+import {useState} from "react";
 import {useRouter} from "next/router";
 
 const Search = () => {
