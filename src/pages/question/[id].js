@@ -1,5 +1,5 @@
 import {useRouter} from "next/router";
-import styles from "@/styles/views/question.create.less";
+import styles from "@/styles/views/question.create.module.less";
 import {Button, Card, Col, Divider, Image, message, Pagination, Popover, Row} from "antd";
 import {CommentOutlined, LikeTwoTone} from "@ant-design/icons";
 import {useState} from "react";
