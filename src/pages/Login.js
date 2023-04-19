@@ -1,9 +1,9 @@
 import {Button, Col, Form, Input, message, Row} from "antd";
-import style from '@/styles/views/login.less'
+import style from '@/styles/views/login.module.less'
 import {useRouter} from "next/router";
 import {login} from "@/helpers/user";
 import {useDispatch} from "react-redux";
-import {handleLogin} from "@/store/modules/user";
+import {handleLogin} from "@/models/user";
 import Cookies from 'js-cookie'
 
 export default function Login() {
