@@ -1,4 +1,4 @@
-import styles from "@/styles/views/search.less";
+import styles from "@/styles/views/search.module.less";
 import {Button, Card, Col, Form, Input, Row} from "antd";
 import {SearchOutlined} from "@ant-design/icons";
 import {search} from "@/helpers/search";
