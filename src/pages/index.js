@@ -1,5 +1,5 @@
-import styles from "@/styles/views/home.less";
-import Content from "@/styles/ui/content.less";
+import styles from "@/styles/views/home.module.less";
+import Content from "@/components/Content";
 import {Button, message, Pagination} from "antd";
 import {useRouter} from "next/router";
 import {useEffect, useState} from "react";
