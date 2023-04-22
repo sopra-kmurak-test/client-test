@@ -1,5 +1,5 @@
 import {Button, Card, Form, Input, message} from "antd";
-import styles from "@/styles/views/question.create.module.less";
+import styles from "@/styles/views/question.create.module.scss";
 import {newQuestion} from "@/helpers/question";
 import {useRouter} from "next/router";
 import useAuth from "@/helpers/auth";

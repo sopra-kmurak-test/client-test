@@ -1,4 +1,4 @@
-import styles from "@/styles/views/question.create.module.less";
+import styles from "@/styles/views/question.create.module.scss";
 import {useRouter} from "next/router";
 import {Button, Card, Form, Input, message} from "antd";
 import {useEffect, useState} from "react";

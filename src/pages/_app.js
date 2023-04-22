@@ -1,4 +1,4 @@
-import "@/styles/globals.less";
+import "@/styles/globals.scss";
 import Layout from "@/layout";
 import { Provider } from "react-redux";
 import store from "@/store";

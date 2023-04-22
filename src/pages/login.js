@@ -1,5 +1,5 @@
 import {Button, Col, Form, Input, message, Row} from "antd";
-import style from '@/styles/views/login.module.less'
+import style from '@/styles/views/login.module.scss'
 import {useRouter} from "next/router";
 import {login} from "@/helpers/user";
 import {useDispatch} from "react-redux";

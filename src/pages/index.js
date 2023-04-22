@@ -1,4 +1,4 @@
-import styles from "@/styles/views/home.module.less";
+import styles from "@/styles/views/home.module.scss";
 import Content from "@/components/Content";
 import {Button, message, Pagination} from "antd";
 import {useRouter} from "next/router";

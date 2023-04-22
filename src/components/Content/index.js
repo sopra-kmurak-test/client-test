@@ -1,4 +1,4 @@
-import styles from "@/components/Content/content.module.less";
+import styles from "@/components/Content/content.module.scss";
 import {Card, Col, Image, Row} from "antd";
 import {useRouter} from "next/router";
 import moment from "moment";
