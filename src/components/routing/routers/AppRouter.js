@@ -7,13 +7,13 @@ import Login from "components/views/Login";
 import Register from "components/views/Register"
 import Index from "components/views/Index";
 import Search from "components/views/Search";
-import {CenterGuard} from "../routeProtectors/CenterGuard";
-import Center from "../../views/Center";
-import {QuestionGuard} from "../routeProtectors/QuestionGuard";
-import QuestionDetail from "../../views/Question/[id].js";
-import Create from "../../views/Question/create.js";
-import Answer from "../../views/Question/[id]/answer";
-import AnswerComments from "../../views/Question/answer/[id]";
+import {CenterGuard} from "components/routing/routeProtectors/CenterGuard";
+import Center from "components/views/Center";
+import {QuestionGuard} from "components/routing/routeProtectors/QuestionGuard";
+import QuestionDetail from "components/views/Question/[id].js";
+import Create from "components/views/Question/create.js";
+import Answer from "components/views/Question/[id]/answer";
+import AnswerComments from "components/views/Question/answer/[id]";
 /**
  * Main router of your application.
  * In the following class, different routes are rendered. In our case, there is a Login Route with matches the path "/login"
