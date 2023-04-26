@@ -1,4 +1,4 @@
-
+// "use strict";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { getDomain } from 'helpers/getDomain';
