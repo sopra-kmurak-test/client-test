@@ -11,9 +11,8 @@ import {
   message,
   Row,
 } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { getTopComments, insertComment } from "helpers/api/comment";
-import { getAnswer } from "helpers/api/answer";
 import axios from "axios";
 import useAuth from "helpers/api/auth";
 import { useHistory } from "react-router-dom";
