@@ -4,7 +4,7 @@ import style from "styles/views/login.module.scss";
 import { useHistory } from "react-router-dom";
 import { login } from "helpers/api/user";
 import { useDispatch } from "react-redux";
-import { handleLogin } from "components/ui/store/user";
+import { handleLogin } from "models/user";
 import Cookies from "js-cookie";
 
 function Login() {
