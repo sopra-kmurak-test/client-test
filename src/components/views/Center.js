@@ -1,4 +1,4 @@
-import {Button, Card, Col, Form, Input, message, Modal, Row, Tabs} from "antd";
+import {Button, Card, Form, Input, message, Modal, Tabs} from "antd";
 import styles from 'styles/views/center.module.scss';
 import {useEffect, useState} from "react";
 import {deleteQuestion, getQuestionsAskedBy, updateQuestion} from "helpers/api/question";

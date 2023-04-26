@@ -3,7 +3,7 @@ import { Button, Col, Form, Input, Row, message } from 'antd';
 import style from 'styles/views/login.module.scss';
 import { useHistory } from 'react-router-dom';
 import { register } from 'helpers/api/user';
-import Cookies from 'js-cookie';
+
 
 function Register() {
     const history = useHistory();
