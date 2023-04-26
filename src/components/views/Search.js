@@ -1,6 +1,6 @@
 import { Button, Card, Col, Form, Input, Row } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { search } from "helpers/api/search";
 import styles from "styles/views/search.module.scss";
