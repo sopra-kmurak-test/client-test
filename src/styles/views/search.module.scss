@@ -53,3 +53,9 @@
     color: #888888;
   }
 }
+
+.message::after {
+  content: "";
+  display: block;
+  clear: both;
+}

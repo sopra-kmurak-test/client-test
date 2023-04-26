@@ -1,6 +1,5 @@
-import styles from "@/components/Footer/footer.module.scss";
+import styles from "./footer.module.scss";
 import {Button, Col, Row} from "antd";
-import {useRouter} from "next/router";
 import {useEffect, useState} from "react";
 import Cookies from "js-cookie";
 
