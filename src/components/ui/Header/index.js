@@ -1,8 +1,7 @@
-import { Avatar, Button, Col, Dropdown, Menu, Row } from "antd";
+import { Avatar, Button, Col, Dropdown, Row } from "antd";
 import { useEffect, useState } from "react";
 import {
   AlertTwoTone,
-  NotificationOutlined,
   SearchOutlined,
   UserOutlined,
 } from "@ant-design/icons";
@@ -35,9 +34,12 @@ const Header = () => {
       return () => clearInterval(timer);
    }, []);
 
+  /*
   const getMenu = () => {
     return [{ label: "Home", key: "/" }];
   };
+
+   */
 
   const handleClick = (url) => {
     // history.push(e.key);

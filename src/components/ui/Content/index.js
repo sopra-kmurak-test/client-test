@@ -4,7 +4,7 @@ import moment from "moment";
 import { useState } from "react";
 //import {translate} from "helpers/api/translator";
 const Content = ({ article }) => {
-    const [isTranslate, setIsTranslate] = useState(false);
+    //const [isTranslate, setIsTranslate] = useState(false);
 
     /*
 
