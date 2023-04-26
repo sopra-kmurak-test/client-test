@@ -39,7 +39,7 @@ const Content = ({ article }) => {
             </span>
                         <Button
                             //onClick={translateTitle}
-                            disabled={isTranslate}
+                            //disabled={isTranslate}
                             style={{ marginLeft: "8px" }}
                             type={"primary"}
                             size={"small"}
