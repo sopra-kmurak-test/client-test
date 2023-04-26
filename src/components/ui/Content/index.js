@@ -6,7 +6,8 @@ import { useState } from "react";
 const Content = ({ article }) => {
     const [isTranslate, setIsTranslate] = useState(false);
 
-    /*/
+    /*
+
     const translateTitle = () => {
         translate({
             content: article.title,
@@ -15,8 +16,7 @@ const Content = ({ article }) => {
             setIsTranslate(true);
         });
     };
-
-     */
+    */
 
     return (
         <div className={styles.content}>
@@ -38,7 +38,7 @@ const Content = ({ article }) => {
               {article.title}
             </span>
                         <Button
-                            onClick={translateTitle}
+                            //onClick={translateTitle}
                             disabled={isTranslate}
                             style={{ marginLeft: "8px" }}
                             type={"primary"}

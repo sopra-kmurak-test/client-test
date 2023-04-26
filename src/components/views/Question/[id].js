@@ -18,7 +18,7 @@ import { evaluateQuestion } from "helpers/api/question";
 import { getSomeAnswerNew, evaluate } from "helpers/api/answer";
 import { translate } from "helpers/api/translator";
 import useAuth from "helpers/api/auth";
-import styles from "/styles/views/question.create.module.scss";
+import styles from "styles/views/question.create.module.scss";
 const requests = axios.create({
   baseURL: process.env.API_HOST, // Change to your desired host and port
 });

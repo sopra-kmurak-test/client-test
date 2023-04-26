@@ -15,7 +15,7 @@ import React, { useEffect, useState } from "react";
 import { getTopComments, insertComment } from "helpers/api/comment";
 import { getAnswer } from "helpers/api/answer";
 import axios from "axios";
-import useAuth from "helpers/api/auth_util";
+import useAuth from "helpers/api/auth";
 import { useHistory } from "react-router-dom";
 const requests = axios.create({
   baseURL: process.env.API_HOST, // Change to your desired host and port
