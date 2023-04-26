@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Button, message, Pagination } from "antd";
 import { useHistory } from "react-router-dom";
 import Content from "components/ui/Content";
-import { getTotalPageCount, listQuestions } from "helpers/api/question";
+import { getTotalPageCount, listQuestions } from "helpers/api/question.js";
 import styles from "styles/views/home.module.scss";
 
 const Index = Home => {
