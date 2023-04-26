@@ -1,28 +1,19 @@
 import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
-import {GameGuard} from "components/routing/routeProtectors/GameGuard";
-import GameRouter from "components/routing/routers/GameRouter";
-import {UsersOverviewGuard} from "components/routing/routeProtectors/UsersOverviewGuard";
-import UsersOverviewRouter from "components/routing/routers/UsersOverviewRouter";
-import {ProfilepageGuard} from "components/routing/routeProtectors/ProfilepageGuard";
-// import ProfilepageRouter from "components/routing/routers/ProfilepageRouter";
 import {LoginGuard} from "components/routing/routeProtectors/LoginGuard";
 import {RegisterGuard} from "components/routing/routeProtectors/RegisterGuard";
 import {IndexGuard} from "components/routing/routeProtectors/IndexGuard";
 import {SearchGuard} from "components/routing/routeProtectors/SearchGuard";
 import Login from "components/views/Login";
 import Register from "components/views/Register"
-import UserInfo from "components/views/Profilepage";
 import Index from "components/views/Index";
 import Search from "components/views/Search";
-
-import {CenterGuard} from "../routeProtectors/CenterGuard";
-import Center from "../../views/Center";
-import {QuestionGuard} from "../routeProtectors/QuestionGuard";
-import QuestionDetail from "../../views/Question/[id].js";
-import Create from "../../views/Question/Create.js";
-import Answer from "../../views/Question/[id]/answer";
-import AnswerComments from "../../views/Question/answer/[id]";
-// import { BrowserRouter } from "react-router-dom";
+import {CenterGuard} from "components/routing/routeProtectors/CenterGuard";
+import Center from "components/views/Center";
+import {QuestionGuard} from "components/routing/routeProtectors/QuestionGuard";
+import QuestionDetail from "components/views/Question/[id].js";
+import Create from "components//views/Question/Create.js";
+import Answer from "components/views/Question/[id]/answer";
+import AnswerComments from "components/views/Question/answer/[id]";
 /**
  * Main router of your application.
  * In the following class, different routes are rendered. In our case, there is a Login Route with matches the path "/login"
@@ -59,8 +50,6 @@ const AppRouter = () => {
                   <QuestionDetail/>
               </QuestionGuard>
           </Route>
-
-
           <Route exact path="/login">
           <LoginGuard>
             <Login />
@@ -75,11 +64,6 @@ const AppRouter = () => {
           <IndexGuard>
             <Index />
           </IndexGuard>
-        </Route>
-        <Route exact path="/chat">
-          <ChatGuard>
-            <Chat />
-          </ChatGuard>
         </Route>
         <Route exact path="/center">
           <CenterGuard>
