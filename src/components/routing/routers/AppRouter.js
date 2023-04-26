@@ -14,8 +14,7 @@ import Register from "components/views/Register"
 import UserInfo from "components/views/Profilepage";
 import Index from "components/views/Index";
 import Search from "components/views/Search";
-import {ChatGuard} from "../routeProtectors/ChatGuard";
-import Chat from "../../views/Chat";
+
 import {CenterGuard} from "../routeProtectors/CenterGuard";
 import Center from "../../views/Center";
 import {QuestionGuard} from "../routeProtectors/QuestionGuard";
