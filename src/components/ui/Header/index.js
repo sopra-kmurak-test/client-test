@@ -24,16 +24,16 @@ const Header = () => {
       setIsLogin(false);
     }
   }, []);
-  //等下要恢复这个
-  // useEffect(() => {
-  //     const timer = setInterval(() => {
-  //         getHasNew().then(response => {
-  //             setHasNew(response.has_new);
-  //         });
-  //     }, 1000);
-  //
-  //     return () => clearInterval(timer);
-  // }, []);
+
+  useEffect(() => {
+     const timer = setInterval(() => {
+           getHasNew().then(response => {
+              setHasNew(response.has_new);
+             });
+       }, 1000);
+
+      return () => clearInterval(timer);
+   }, []);
 
   const getMenu = () => {
     return [{ label: "Home", key: "/" }];
