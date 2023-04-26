@@ -1,10 +1,4 @@
 import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
-import {GameGuard} from "components/routing/routeProtectors/GameGuard";
-import GameRouter from "components/routing/routers/GameRouter";
-import {UsersOverviewGuard} from "components/routing/routeProtectors/UsersOverviewGuard";
-import UsersOverviewRouter from "components/routing/routers/UsersOverviewRouter";
-import {ProfilepageGuard} from "components/routing/routeProtectors/ProfilepageGuard";
-// import ProfilepageRouter from "components/routing/routers/ProfilepageRouter";
 import {LoginGuard} from "components/routing/routeProtectors/LoginGuard";
 import {RegisterGuard} from "components/routing/routeProtectors/RegisterGuard";
 import {IndexGuard} from "components/routing/routeProtectors/IndexGuard";
