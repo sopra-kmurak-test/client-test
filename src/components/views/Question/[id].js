@@ -13,6 +13,19 @@ const requests = axios.create({
     withCredentials: true,
     // baseURL: process.env.API_HOST // Change to your desired host and port
 });
+requests.interceptors.request.use(
+    (config) => {
+        config.headers["content-type"] = "multipart/form-data";
+        config.headers["Access-Control-Allow-Origin"] = "*";
+        config.headers["Access-Control-Allow-Headers"] = "Origin, X-Requested-With, Content-Type, Accept";
+        config.headers['token'] = Cookies.get('token')
+        return config;
+    },
+    (error) => {
+        console.log(error);
+        return Promise.reject(error);
+    }
+);
 
 export const getServerSideProps = async (context) => {
     const { params } = context
