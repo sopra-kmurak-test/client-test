@@ -15,7 +15,7 @@ function Register() {
             if (response.success === 'false') {
                 message.error(response.reason);
             } else {
-                message.info('注册成功');
+                message.info('Register successfully.');
                 history.push('/login').then(() => {
                     window.location.reload();
                 });

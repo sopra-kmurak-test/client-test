@@ -70,7 +70,7 @@ const Answer = ({ question }) => {
                 response =>{
                     console.log(response.status)
                     if (response.status === 200) {
-                        message.info('提交回答成功.')
+                        message.info('Answer created!')
                         router.push(`/question/${id}`)
                     }
                 }

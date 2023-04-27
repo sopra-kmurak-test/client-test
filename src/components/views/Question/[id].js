@@ -107,7 +107,7 @@ const QuestionDetail = ({  }) => {
             UporDownVote: 1
         }).then(response => {
             if (response.success === "true") {
-                message.info("点赞成功");
+                message.info("Thumb up successfully");
                 const newAnswers = answers.map(answer => {
                     if (answer.answer.id === id) {
                         answer.likeCount += 1;
@@ -116,7 +116,7 @@ const QuestionDetail = ({  }) => {
                 });
                 setAnswers(newAnswers);
             } else {
-                message.error("点赞失败");
+                message.error("Thumb up failed");
             }
         });
     };

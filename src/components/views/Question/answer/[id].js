@@ -62,7 +62,7 @@ const AnswerComments = (  ) => {
             content: values.content
         }).then((response) => {
             if (response.success === 'true') {
-                message.info('回复成功')
+                message.info('Comment successfully')
                 form.setFieldsValue({
                     content: ''
                 })
@@ -75,7 +75,7 @@ const AnswerComments = (  ) => {
                     }
                 })
             } else {
-                message.error('回复失败')
+                message.error('Comment failed')
             }
         });
     };
