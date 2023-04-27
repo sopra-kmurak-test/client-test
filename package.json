@@ -32,12 +32,21 @@
     "test": "react-scripts test --env=jsdom"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": "react-app",
+    "rules": {
+      "react-hooks/exhaustive-deps": "off"
+    }
   },
   "browserslist": [
     ">0.2%",
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "browser": {
+    "fs": false,
+    "path": false,
+    "os": false,
+    "child_process": false
+  }
 }

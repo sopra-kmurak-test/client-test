@@ -46,7 +46,7 @@ export const getServerSideProps = async (context) => {
   }
 };
 
-const QuestionDetail = ({}) => {
+const QuestionDetail = () => {
   useAuth();
   const { id } = useParams();
   const router = useHistory();
