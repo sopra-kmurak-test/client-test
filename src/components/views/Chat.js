@@ -1,98 +1,128 @@
-import style from 'styles/views/chat.module.scss'
-import {over} from 'stompjs';
-import SockJS from 'sockjs-client';
-import $ from "jquery";
-import { Button, Col, Form, Input, Row } from "antd";
-
-
+import React, { useState, useEffect } from "react";
+import { Button, Card, Divider, Form, Image, Input, message } from "antd";
+import { useHistory, useLocation } from "react-router-dom";
+import { insertMessage, listMessage } from "helpers/api/message";
+import { getHasNew } from "helpers/api/user";
+import styles from "styles/views/chat.module.scss";
 const Chat = () => {
+    const history = useHistory();
+    const location = useLocation();
+    const [form] = Form.useForm();
+    const [messages, setMessages] = useState([]);
+    const [user, setUser] = useState({});
+    const [fromUserId, setfromUserId] = useState({});
+    const [toUserId, settoUserId] = useState({});
 
-  const { TextArea } = Input;
-  const url = "https://sopra-fs23-group-38-server.oa.r.appspot.com";
+    useEffect(() => {
 
-  // Connect to WebSocket
-  let stompClient = null;
-  function setConnected(connected) {
-      $("#connect").prop("disabled", connected);
-      $("#disconnect").prop("disabled", !connected);
-      $("#chatHistory").html("");
-  }
-  function connect() {
-      console.log("Connected");
-      const socket = new SockJS(url + "/websocket");
-      stompClient = over(socket);
-      stompClient.connect({}, function (frame) {
-          setConnected(true);
-          console.log('Connected: ' + frame);
-          stompClient.subscribe('/receive/chat', function (response) {
-              console.log("got a message");
-              showMessage(JSON.parse(response.body));
-          });
-      });
-  }
-  function disconnect() {
-      if (stompClient !== null) {
-          stompClient.disconnect();
-      }
-      setConnected(false);
-      console.log("Disconnected");
-  }
+        let { fromUserId, toUserId } = location.state || {};
+        if (!fromUserId){
+            const urlParams = new URLSearchParams(window.location.search);
+            fromUserId = urlParams.get('fromUserId');
+            toUserId = urlParams.get('toUserId');
+        }
 
-  // Send message to back-end
-  function sendMessage() {
-      stompClient.send("/send/chat", {}, JSON.stringify(
-          {'userId1': "111", 'message': $("#message").val()}));
-      $("#message").val("");
-  }
+        const cUser = JSON.parse(localStorage.getItem("user"));
+        setUser(cUser);
 
-  // Show messages on front-end
-  function showMessage(response) {
-      var tags = "<div class='" + style.chat_left + "'>";
-      tags += "<figure><img src=\"images/user_icon.png\" /></figure>";
-      tags += "<div class='" + style.chat_left_text + "'>";
-      tags += "<div class='" + style.name + "'>User1</div>";
-      tags += "<div class='" + style.text + "'>" + response.message + "</div>";
-      tags += "</div></div>"
-      $("#chatHistory").append(tags);
-  }
+        const timer = setInterval(() => {
+            listMessage({
+                fromUserId: fromUserId,
+                toUserId: toUserId,
+            }).then((response) => {
+                setMessages(response);
+            });
+        }, 1000);
 
-  return (
-    <div className={style.container}>
-      <div className={style.main}>
-        <p className={style.formTitle}><span className={style.highlight}>Chat</span> with other users !</p>
+        return () => clearInterval(timer);
+    }, [location.search]);
 
-        <div id="chatHistory" className={style.chatContents}></div>
+    useEffect(() => {
+        var container = document.getElementById("container");
+        container.scrollTop = container.scrollHeight;
+    }, [messages]);
 
-        <Form
-          name="messageForm"
-          >
-          <Form.Item
-            name="messageInput"
-           >
-            <TextArea id="message" allowClear rows={4} style={{ width: '540px', height: '60px', marginTop: '12px' }} placeholder={"Please enter your message here..."}/>
-          </Form.Item>
-        </Form>
-        <Row style={{ width: '540px', marginTop: '0px' }}>
-          <Col span={6}>
-            <Button id="connect" onClick={connect} style={{ backgroundColor: '#6F3BF5', width: '120px', marginRight: '8px' }} shape={"round"} type="primary" size={"large"} htmlType="submit">
-              Connect
-            </Button>
-          </Col>
-          <Col span={6}>
-            <Button id="disconnect" onClick={disconnect} style={{ backgroundColor: '#6F3BF5', width: '120px', marginRight: '8px' }} shape={"round"} type="primary" size={"large"} htmlType="submit">
-              Disconnect
-            </Button>
-          </Col>
-          <Col span={6} offset={6}>
-            <Button onClick={sendMessage} style={{ backgroundColor: '#6F3BF5', width: '100px', marginRight: '8px' }} shape={"round"} type="primary" size={"large"} htmlType="submit">
-              Send
-            </Button>
-          </Col>
-        </Row>
+    const sendMessage = (values) => {
+        let { fromUserId, toUserId } = location.state || {};
+        if (!fromUserId){
+            const urlParams = new URLSearchParams(window.location.search);
+            fromUserId = urlParams.get('fromUserId');
+            toUserId = urlParams.get('toUserId');
+        }
 
-      </div>
-    </div>
-  );
-};
+        insertMessage({
+            fromUserId: fromUserId,
+            toUserId: toUserId,
+            content: values.content,
+        }).then((response) => {
+            if (response.success === "true") {
+                message.info("success");
 
-export default Chat;
+                setMessages([
+                    ...messages,
+                    {
+                        fromUserId: parseInt(fromUserId),
+                        content: values.content,
+                    },
+                ]);
+                form.resetFields(["content"]);
+            } else {
+                message.info("failed");
+            }
+        });
+    };
+
+    return (
+        <div className={styles.container}>
+            <div className={styles.main}>
+                <Card title={"Chat With Other Users!"} style={{ width: '50%', maxWidth: '756px' }}>
+                    <div id={"container"} style={{ maxHeight: '512px', overflowY: 'scroll' }}>
+                        {messages && messages.map((message, item) => (
+                            message.fromUserId !== user.id ?
+                                <div key={item} className={styles.message}>
+                                    <div style={{ display: 'flex', marginBottom: '8px' }}>
+                                        <div style={{ textAlign: 'center' }}>
+                                            <Image preview={false} width={48} height={48} fallback="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMIAAADDCAYAAADQvc6UAAABRWlDQ1BJQ0MgUHJvZmlsZQAAKJFjYGASSSwoyGFhYGDIzSspCnJ3UoiIjFJgf8LAwSDCIMogwMCcmFxc4BgQ4ANUwgCjUcG3awyMIPqyLsis7PPOq3QdDFcvjV3jOD1boQVTPQrgSkktTgbSf4A4LbmgqISBgTEFyFYuLykAsTuAbJEioKOA7DkgdjqEvQHEToKwj4DVhAQ5A9k3gGyB5IxEoBmML4BsnSQk8XQkNtReEOBxcfXxUQg1Mjc0dyHgXNJBSWpFCYh2zi+oLMpMzyhRcASGUqqCZ16yno6CkYGRAQMDKMwhqj/fAIcloxgHQqxAjIHBEugw5sUIsSQpBobtQPdLciLEVJYzMPBHMDBsayhILEqEO4DxG0txmrERhM29nYGBddr//5/DGRjYNRkY/l7////39v///y4Dmn+LgeHANwDrkl1AuO+pmgAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAwqADAAQAAAABAAAAwwAAAAD9b/HnAAAHlklEQVR4Ae3dP3PTWBSGcbGzM6GCKqlIBRV0dHRJFarQ0eUT8LH4BnRU0NHR0UEFVdIlFRV7TzRksomPY8uykTk/zewQfKw/9znv4yvJynLv4uLiV2dBoDiBf4qP3/ARuCRABEFAoBEgghggQAQZQKAnYEaQBAQaASKIAQJEkAEEegJmBElAoBEgghggQAQZQKAnYEaQBAQaASKIAQJEkAEEegJmBElAoBEgghggQAQZQKAnYEaQBAQaASKIAQJEkAEEegJmBElAoBEgghggQAQZQKAnYEaQBAQaASKIAQJEkAEEegJmBElAoBEgghggQAQZQKAnYEaQBAQaASKIAQJEkAEEegJmBElAoBEgghggQAQZQKAnYEaQBAQaASKIAQJEkAEEegJmBElAoBEgghggQAQZQKAnYEaQBAQaASKIAQJEkAEEegJmBElAoBEgghggQAQZQKAnYEaQBAQaASKIAQJEkAEEegJmBElAoBEgghggQAQZQKAnYEaQBAQaASKIAQJEkAEEegJmBElAoBEgghggQAQZQKAnYEaQBAQaASKIAQJEkAEEegJmBElAoBEgghggQAQZQKAnYEaQBAQaASKIAQJEkAEEegJmBElAoBEgghggQAQZQKAnYEaQBAQaASKIAQJEkAEEegJmBElAoBEgghgg0Aj8i0JO4OzsrPv69Wv+hi2qPHr0qNvf39+iI97soRIh4f3z58/u7du3SXX7Xt7Z2enevHmzfQe+oSN2apSAPj09TSrb+XKI/f379+08+A0cNRE2ANkupk+ACNPvkSPcAAEibACyXUyfABGm3yNHuAECRNgAZLuYPgEirKlHu7u7XdyytGwHAd8jjNyng4OD7vnz51dbPT8/7z58+NB9+/bt6jU/TI+AGWHEnrx48eJ/EsSmHzx40L18+fLyzxF3ZVMjEyDCiEDjMYZZS5wiPXnyZFbJaxMhQIQRGzHvWR7XCyOCXsOmiDAi1HmPMMQjDpbpEiDCiL358eNHurW/5SnWdIBbXiDCiA38/Pnzrce2YyZ4//59F3ePLNMl4PbpiL2J0L979+7yDtHDhw8vtzzvdGnEXdvUigSIsCLAWavHp/+qM0BcXMd/q25n1vF57TYBp0a3mUzilePj4+7k5KSLb6gt6ydAhPUzXnoPR0dHl79WGTNCfBnn1uvSCJdegQhLI1vvCk+fPu2ePXt2tZOYEV6/fn31dz+shwAR1sP1cqvLntbEN9MxA9xcYjsxS1jWR4AIa2Ibzx0tc44fYX/16lV6NDFLXH+YL32jwiACRBiEbf5KcXoTIsQSpzXx4N28Ja4BQoK7rgXiydbHjx/P25TaQAJEGAguWy0+2Q8PD6/Ki4R8EVl+bzBOnZY95fq9rj9zAkTI2SxdidBHqG9+skdw43borCXO/ZcJdraPWdv22uIEiLA4q7nvvCug8WTqzQveOH26fodo7g6uFe/a17W3+nFBAkRYENRdb1vkkz1CH9cPsVy/jrhr27PqMYvENYNlHAIesRiBYwRy0V+8iXP8+/fvX11Mr7L7ECueb/r48eMqm7FuI2BGWDEG8cm+7G3NEOfmdcTQw4h9/55lhm7DekRYKQPZF2ArbXTAyu4kDYB2YxUzwg0gi/41ztHnfQG26HbGel/crVrm7tNY+/1btkOEAZ2M05r4FB7r9GbAIdxaZYrHdOsgJ/wCEQY0J74TmOKnbxxT9n3FgGGWWsVdowHtjt9Nnvf7yQM2aZU/TIAIAxrw6dOnAWtZZcoEnBpNuTuObWMEiLAx1HY0ZQJEmHJ3HNvGCBBhY6jtaMoEiJB0Z29vL6ls58vxPcO8/zfrdo5qvKO+d3Fx8Wu8zf1dW4p/cPzLly/dtv9Ts/EbcvGAHhHyfBIhZ6NSiIBTo0LNNtScABFyNiqFCBChULMNNSdAhJyNSiECRCjUbEPNCRAhZ6NSiAARCjXbUHMCRMjZqBQiQIRCzTbUnAARcjYqhQgQoVCzDTUnQIScjUohAkQo1GxDzQkQIWejUogAEQo121BzAkTI2agUIkCEQs021JwAEXI2KoUIEKFQsw01J0CEnI1KIQJEKNRsQ80JECFno1KIABEKNdtQcwJEyNmoFCJAhELNNtScABFyNiqFCBChULMNNSdAhJyNSiECRCjUbEPNCRAhZ6NSiAARCjXbUHMCRMjZqBQiQIRCzTbUnAARcjYqhQgQoVCzDTUnQIScjUohAkQo1GxDzQkQIWejUogAEQo121BzAkTI2agUIkCEQs021JwAEXI2KoUIEKFQsw01J0CEnI1KIQJEKNRsQ80JECFno1KIABEKNdtQcwJEyNmoFCJAhELNNtScABFyNiqFCBChULMNNSdAhJyNSiECRCjUbEPNCRAhZ6NSiAARCjXbUHMCRMjZqBQiQIRCzTbUnAARcjYqhQgQoVCzDTUnQIScjUohAkQo1GxDzQkQIWejUogAEQo121BzAkTI2agUIkCEQs021JwAEXI2KoUIEKFQsw01J0CEnI1KIQJEKNRsQ80JECFno1KIABEKNdtQcwJEyNmoFCJAhELNNtScABFyNiqFCBChULMNNSdAhJyNSiEC/wGgKKC4YMA4TAAAAABJRU5ErkJggg=="/>
+                                        </div>
+                                        <div style={{ marginLeft: '8px', padding: '8px', border: '1px solid #d9d9d9', borderRadius: '6px', height: '100%' }}>
+                                            <span>{message.content}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                :
+                                <div className={styles.message}>
+                                    <div className={styles.message} style={{ float: 'right' }}>
+                                        <div style={{ display: 'flex', marginBottom: '8px' }}>
+                                            <div style={{ marginRight: '8px', padding: '8px', border: '1px solid #d9d9d9', borderRadius: '6px', height: '100%' }}>
+                                                <span>{ message.content }</span>
+                                            </div>
+                                            <div style={{ textAlign: 'center' }}>
+                                                <Image preview={false} width={48} height={48} fallback="data:image/png;base64,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"/>
+                                                {/*<div>test</div>*/}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        ))}
+                        <Divider />
+                    </div>
+                    <div style={{ marginTop: '8px' }}>
+                        <Form form={form} onFinish={sendMessage}>
+                            <Form.Item style={{ marginBottom: 0 }} name={'content'} rules={[{ required: true, message: "please input your content." }]}>
+                                <Input.TextArea placeholder={"Type Your chat word here:"}/>
+                            </Form.Item>
+                            <div style={{ float: 'right', marginTop: '16px' }}>
+                                <Form.Item style={{ marginBottom: 0 }}>
+                                    <Button htmlType={"submit"} type={"primary"} style={{ backgroundColor: '#6F3BF5' }}>Send</Button>
+                                </Form.Item>
+                            </div>
+                        </Form>
+
+                    </div>
+                </Card>
+            </div>
+        </div>
+    )
+}
+
+export default Chat
