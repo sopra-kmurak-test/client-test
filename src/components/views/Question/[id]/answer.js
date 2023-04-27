@@ -1,9 +1,7 @@
 import styles from "styles/views/question.create.module.scss";
-// import {useRouter} from "next/router";
 import { Button, Card, Form, Input, message } from "antd";
 import { useEffect, useState } from "react";
 import { getQuestion } from "helpers/api/question";
-import { newAnswer } from "helpers/api/answer";
 import useAuth from "helpers/api/auth";
 import axios from "axios";
 import {useHistory,useParams} from "react-router-dom";
@@ -66,12 +64,6 @@ const Answer = ({ question }) => {
         )
 
 
-
-        // newAnswer(values).then((response => {
-        //     if (response.success === 'true') {
-        //         message.info('提交回答成功.')
-        //         router.push(`/question/${id}`)
-        //     }
 
     }
 
