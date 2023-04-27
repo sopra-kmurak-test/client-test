@@ -9,7 +9,7 @@ import { translate } from "helpers/api/translator";
 import useAuth from "helpers/api/auth";
 import styles from "styles/views/question.create.module.scss";
 const requests = axios.create({
-    baseURL: "http://localhost:8080/",
+    baseURL: "http://sopra-fs23-group-38-server.oa.r.appspot.com/",
     withCredentials: true,
     // baseURL: process.env.API_HOST // Change to your desired host and port
 });
@@ -48,6 +48,7 @@ export const getServerSideProps = async (context) => {
     }
 }
 
+// eslint-disable-next-line no-empty-pattern
 const QuestionDetail = ({  }) => {
     useAuth()
     const { id } = useParams();

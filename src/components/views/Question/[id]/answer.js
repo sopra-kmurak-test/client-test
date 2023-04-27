@@ -6,7 +6,7 @@ import useAuth from "helpers/api/auth";
 import axios from "axios";
 import {useHistory,useParams} from "react-router-dom";
 const requests = axios.create({
-    baseURL: "http://localhost:8080/",
+    baseURL: "http://sopra-fs23-group-38-server.oa.r.appspot.com/",
     withCredentials: true, // Change to your desired host and port
 });
 
@@ -51,6 +51,7 @@ const Answer = ({ question }) => {
 
     const onFinish = (values) => {
         values['which_question'] = id
+        // eslint-disable-next-line no-unused-vars
         const response = requests.post(`/answer/createAnswer?questionID=${id}&content=${values['content']}`).then(
             (
                 response =>{
