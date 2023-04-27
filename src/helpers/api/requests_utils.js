@@ -1,6 +1,7 @@
 // "use strict";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { getDomain } from 'helpers/getDomain';
 
 export const requests = axios.create({
     baseURL: "http://localhost:8080/",
