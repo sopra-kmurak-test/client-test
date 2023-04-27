@@ -5,6 +5,7 @@ import { getQuestion } from "helpers/api/question";
 import useAuth from "helpers/api/auth";
 import axios from "axios";
 import {useHistory,useParams} from "react-router-dom";
+import Cookies from "js-cookie";
 const requests = axios.create({
     baseURL: "http://sopra-fs23-group-38-server.oa.r.appspot.com/",
     withCredentials: true, // Change to your desired host and port
