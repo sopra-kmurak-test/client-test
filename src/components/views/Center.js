@@ -52,8 +52,9 @@ const Center = () => {
                 setQuestions(prevState => {
                     return prevState.filter((item) => {
                         if (item.questionId !== id) {
-                            return item
+                            return item;
                         }
+                        return null;
                     })
                 })
             } else {
@@ -98,8 +99,9 @@ const Center = () => {
                 setAnswers(prevState => {
                     return prevState.filter((item) => {
                         if (item.answerId !== id) {
-                            return item
+                            return item;
                         }
+                        return null;
                     })
                 })
             } else {
@@ -144,8 +146,9 @@ const Center = () => {
                 setComments(prevState => {
                     return prevState.filter((item) => {
                         if (item.commentId !== id) {
-                            return item
+                            return item;
                         }
+                        return null;
                     })
                 })
             } else {
