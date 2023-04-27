@@ -1,41 +1,41 @@
 import requests from "./requests_utils";
 
 export function getTotalPageCount() {
-    return requests.get("/question/getTotalPageCount")
+    return requests.get("/question/getHowManyQuestions")
 }
-
+//
 export function listQuestions(params) {
-    return requests.get(`/question/getSomeQuestionNew`, {
+    return requests.get(`/question/getAllQuestions`, {
         params: params//"pageIndex"="1",没有data
     });
 }
-
+//
 export function getQuestion(params) {
-    return requests.get(`/question/getQuestion`, {
+    return requests.get(`/question/getQuestionById`, {
         params: params
     });
 }
-
+//后端不做
 export function evaluateQuestion(params) {
     return requests.get(`/question/evaluate`, {
         params: params
     })
 }
-
+//
 export function newQuestion(data) {
-    return requests.post(`/question/newQuestion?detail=${data.detail}&title=${data.title}`)
+    return requests.post(`/question/createQuestion?description=${data.detail}&title=${data.title}`)
 }
-
+//
 export function getQuestionsAskedBy(params) {
-    return requests.get(`/question/getQuestionsAskedBy`, {
+    return requests.get(`/question/getQuestionsByWho`, {
         params: params
     })
 }
-
+//
 export function updateQuestion(data) {
-    return requests.post(`/question/updateQuestion?editId=${data.editId}&newTitle=${data.newTitle}&detail=${data.detail}`)
+    return requests.post(`/question/updateQuestion?ID=${data.editId}&newTitle=${data.newTitle}&newDescription=${data.detail}`)
 }
-
+//
 export function deleteQuestion(data) {
-    return requests.post(`/question/deleteQuestion?questionId=${data.questionId}`)
+    return requests.delete(`/question/deleteQuestion?ID=${data.questionId}`)
 }
