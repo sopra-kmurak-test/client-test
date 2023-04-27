@@ -8,11 +8,10 @@ import {listNotifications} from "helpers/api//notification";
 import {useHistory} from "react-router-dom";
 
 const Center = () => {
-    const [questions, setQuestions] = useState([])
-    const [answers, setAnswers] = useState([])
-    const [comments, setComments] = useState([])
-    const [notifications, setNotifications] = useState([])
-    // const router = useRouter()
+    const [questions, setQuestions] = useState([]);
+    const [answers, setAnswers] = useState([]);
+    const [comments, setComments] = useState([]);
+    const [notifications, setNotifications] = useState([]);
     const history = useHistory();
 
     useEffect(() => {
