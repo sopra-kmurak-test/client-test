@@ -4,7 +4,6 @@ import axios from "axios";
 import moment from "moment/moment";
 import {Button, Card, Col, Divider, Image, message, Pagination, Row} from "antd";
 import { CommentOutlined, LikeTwoTone } from "@ant-design/icons";
-import { evaluateQuestion } from "helpers/api/question";
 import { getSomeAnswerNew, evaluate } from "helpers/api/answer";
 import { translate } from "helpers/api/translator";
 import useAuth from "helpers/api/auth";
