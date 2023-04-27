@@ -72,10 +72,12 @@ const Center = () => {
                 message.info('Success')
                 setEditQuestionOpen(false)
                 setQuestions(prevState => {
-                    if (item.questionId === question.questionId) {
-                        item.title = values.title
-                    }
-                    return item
+                    return prevState.map((item) => {
+                        if (item.questionId === question.questionId) {
+                            item.title = values.title
+                        }
+                        return item
+                    })
                 })
             } else {
                 message.error('Failed')
