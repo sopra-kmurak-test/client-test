@@ -8,30 +8,32 @@ import {listNotifications} from "helpers/api//notification";
 import {useHistory} from "react-router-dom";
 
 const Center = () => {
-    const [questions, setQuestions] = useState([]);
-    const [answers, setAnswers] = useState([]);
-    const [comments, setComments] = useState([]);
-    const [notifications, setNotifications] = useState([]);
+    const [questions, setQuestions] = useState([])
+    const [answers, setAnswers] = useState([])
+    const [comments, setComments] = useState([])
+    const [notifications, setNotifications] = useState([])
+    // const router = useRouter()
     const history = useHistory();
 
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem("user"))
-        getQuestionsAskedBy({authorId: user.id}).then(response => {
+        getQuestionsAskedBy({who_asks: user.id}).then(response => {
             setQuestions(response)
         })
 
-        getAnswersWriteBy({authorId: user.id}).then(response => {
+        getAnswersWriteBy({answererID: user.id}).then(response => {
             setAnswers(response)
         })
 
-        getCommentsBy({ commentator: user.id }).then(response => {
-            setComments(response)
-        })
+        // getCommentsBy({ commentator: user.id }).then(response => {
+        //     setComments(response)
+        // })
 
         const timer = setInterval(() => {
             const user = JSON.parse(localStorage.getItem("user"))
             listNotifications({ toUserId: user.id }).then(response => {
                 setNotifications(response)
+                console.log(response)
             })
         }, 1000);
 
@@ -48,12 +50,11 @@ const Center = () => {
             if (response.success && response.success === 'true') {
                 message.info('Success')
                 setQuestions(prevState => {
-                    return prevState.map((item) => {
+                    return prevState.filter((item) => {
                         if (item.questionId !== id) {
-                            return item;
+                            return item
                         }
-                        return null;
-                    }).filter(item => item !== null)
+                    })
                 })
             } else {
                 message.error('Failed')
@@ -68,21 +69,22 @@ const Center = () => {
             detail: values.question
         }).then(response => {
             if (response.success && response.success === 'true') {
-                message.info('Success')
-                setEditQuestionOpen(false)
+                message.info('Success');
+                setEditQuestionOpen(false);
                 setQuestions(prevState => {
-                    return prevState.map((item) => {
+                    const updatedQuestions = prevState.map((item) => {
                         if (item.questionId === question.questionId) {
-                            item.title = values.title
+                            return { ...item, title: values.title };
                         }
-                        return item
-                    })
-                })
+                        return item;
+                    });
+                    return updatedQuestions;
+                });
             } else {
-                message.error('Failed')
+                message.error('Failed');
             }
-        })
-    }
+        });
+    };
 
     const [editAnswerOpen, setEditAnswerOpen] = useState(false)
     const [answer, setAnswer] = useState({})
@@ -94,12 +96,11 @@ const Center = () => {
             if (response.success && response.success === 'true') {
                 message.info('Success')
                 setAnswers(prevState => {
-                    return prevState.map((item) => {
+                    return prevState.filter((item) => {
                         if (item.answerId !== id) {
-                            return item;
+                            return item
                         }
-                        return null;
-                    }).filter(item => item !== null)
+                    })
                 })
             } else {
                 message.error('Failed')
@@ -113,21 +114,23 @@ const Center = () => {
             newContent: values.answer
         }).then(response => {
             if (response.success && response.success === 'true') {
-                message.info('Success')
-                setEditAnswerOpen(false)
+                message.info('Success');
+                setEditAnswerOpen(false);
                 setAnswers(prevState => {
-                    return prevState.map((item) => {
+                    const updatedAnswers = prevState.map((item) => {
                         if (item.answerId === answer.answerId) {
-                            item.answerContent = values.answer
+                            return { ...item, content: values.answer };
                         }
-                        return item
-                    })
-                })
+                        return item;
+                    });
+                    return updatedAnswers;
+                });
             } else {
-                message.error('Failed')
+                message.error('Failed');
             }
-        })
-    }
+        });
+    };
+
 
     const [editCommentOpen, setEditCommentOpen] = useState(false)
     const [comment, setComment] = useState({})
@@ -139,12 +142,11 @@ const Center = () => {
             if (response.success && response.success === 'true') {
                 message.info('Success')
                 setComments(prevState => {
-                    return prevState.map((item) => {
+                    return prevState.filter((item) => {
                         if (item.commentId !== id) {
-                            return item;
+                            return item
                         }
-                        return null;
-                    }).filter(item => item !== null)
+                    })
                 })
             } else {
                 message.error('Failed')
@@ -158,21 +160,22 @@ const Center = () => {
             content: values.comment
         }).then(response => {
             if (response.success && response.success === 'true') {
-                message.info('Success')
-                setEditCommentOpen(false)
+                message.info('Success');
+                setEditCommentOpen(false);
                 setComments(prevState => {
-                    return prevState.map((item) => {
+                    const updatedComments = prevState.map((item) => {
                         if (item.commentId === comment.commentId) {
-                            item.commentContent = values.comment
+                            return { ...item, commentContent: values.comment };
                         }
-                        return item
-                    })
-                })
+                        return item;
+                    });
+                    return updatedComments;
+                });
             } else {
-                message.error('Failed')
+                message.error('Failed');
             }
-        })
-    }
+        });
+    };
 
     const items = [
         {
@@ -220,11 +223,12 @@ const Center = () => {
                                 return <Card key={index} style={{ marginTop: '8px' }}>
                                     <div style={{ display: 'flex' }}>
                                         <div>
-                                            { item.answerContent }
+                                            { item.content }
                                         </div>
 
                                         <div style={{ position: 'absolute', right: '8px' }}>
                                             <Button onClick={() => {
+                                                console.log(item)
                                                 setEditAnswerOpen(true)
                                                 setAnswer(item)
                                             }} style={{ backgroundColor: '#6F3BF5', marginRight: '8px', marginLeft: '8px'}} type={"primary"}>Edit</Button>
@@ -286,7 +290,8 @@ const Center = () => {
                                         </div>
 
                                         <div style={{ position: 'absolute', right: '8px' }}>
-                                            <Button onClick={() => history.push(item.url)} type={"primary"}>跳转</Button>
+
+                                            <Button onClick={() => history.push(item.url)} type={"primary"}>skip</Button>
                                         </div>
                                     </div>
                                 </Card>
