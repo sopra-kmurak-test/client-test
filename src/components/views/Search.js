@@ -6,65 +6,63 @@ import { search } from "helpers/api/search";
 import styles from "styles/views/search.module.scss";
 
 const Search = () => {
-  const [items, setItems] = useState([]);
-  const history = useHistory();
+    const [items, setItems] = useState([]);
+    const history = useHistory();
 
-  const onFinish = (values) => {
-    search(values).then((response) => {
-      setItems(response.items);
-    });
-  };
+    const onFinish = (values) => {
+        search(values).then((response) => {
+            setItems(response);
+        });
+    };
 
-  return (
-    <div className={styles.container}>
-      <div className={styles.main}>
-        <p className={styles.welcome}>Search Your Interests!</p>
+    return (
+        <div className={styles.container}>
+            <div className={styles.main}>
+                <p className={styles.welcome}>Search Your Interests!</p>
 
-        <Form onFinish={onFinish} className={styles.form}>
-          <Row>
-            <Col span={2}>
-              <Button
-                style={{ marginRight: "16px", marginTop: "38px" }}
-                shape="circle"
-                icon={<SearchOutlined />}
-                type={"text"}
-                size={"large"}
-              />
-            </Col>
+                <Form onFinish={onFinish} className={styles.form}>
+                    <Row>
+                        <Col span={2}>
+                            <Button
+                                style={{ marginRight: "16px", marginTop: "38px" }}
+                                shape="circle"
+                                icon={<SearchOutlined />}
+                                type={"text"}
+                                size={"large"}
+                            />
+                        </Col>
 
-            <Col span={22}>
-              <Form.Item
-                name="q"
-                rules={[
-                  { required: true, message: "please input your keywords." },
-                ]}
-              >
-                <Input
-                  style={{ width: "756px", marginTop: "32px", height: "48px" }}
-                  size={"large"}
-                  placeholder={"Type the keywords here"}
-                />
-              </Form.Item>
-            </Col>
-          </Row>
+                        <Col span={22}>
+                            <Form.Item
+                                name="keyword"
+                                rules={[{ required: true, message: "please input your keywords." }]}
+                            >
+                                <Input
+                                    style={{ width: "756px", marginTop: "32px", height: "48px" }}
+                                    size={"large"}
+                                    placeholder={"Type the keywords here"}
+                                />
+                            </Form.Item>
+                        </Col>
+                    </Row>
 
-          <Button
-            htmlType={"submit"}
-            style={{
-              marginTop: "32px",
-              width: "128px",
-              height: "48px",
-              backgroundColor: "#6F3BF5",
-            }}
-            type={"primary"}
-            shape={"round"}
-            size={"large"}
-          >
-            Search
-          </Button>
+                    <Button
+                        htmlType={"submit"}
+                        style={{
+                            marginTop: "32px",
+                            width: "128px",
+                            height: "48px",
+                            backgroundColor: "#6F3BF5",
+                        }}
+                        type={"primary"}
+                        shape={"round"}
+                        size={"large"}
+                    >
+                        Search
+                    </Button>
 
           {items.map((item) => {
-            if (item.description !== "User" && item.description !== "Article") {
+            if (item.description !== "User" && item.description !== "Question" && item.description !== "Answer") {
               return (
                 <div key={item.html_url} className={styles.content}>
                   <Card
@@ -72,34 +70,32 @@ const Search = () => {
                     bodyStyle={{ padding: "16px" }}
                   >
                     <span
-                      style={{
-                        whiteSpace: "nowrap",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        maxWidth: "500px",
-                      }}
-                      onClick={() => {
-                        history.push(item.html_url);
-                      }}
-                      className={styles.title}
+                        style={{
+                            whiteSpace: "nowrap",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                            maxWidth: "500px",
+                        }}
+                        onClick={() => {
+                            history.push(item.html_url);
+                        }}
+                        className={styles.title}
                     >
                       {item.name}
                     </span>
 
-                    <span style={{ float: "right", marginTop: "8px" }}>
-                      {item.description}
+                                        <span style={{ float: "right", marginTop: "8px" }}>
+                      {item.type}
                     </span>
-                  </Card>
-                </div>
-              );
-            } else {
-              return null
-            }
-          })}
-        </Form>
-      </div>
-    </div>
-  );
+                                    </Card>
+                                </div>
+                            );
+                        }
+                    })}
+                </Form>
+            </div>
+        </div>
+    );
 };
 
 export default Search;
