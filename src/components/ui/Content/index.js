@@ -1,7 +1,6 @@
 import styles from "./content.module.scss";
 import { Button, Card, Col, Image, Row } from "antd";
 import moment from "moment";
-import { useState } from "react";
 //import {translate} from "helpers/api/translator";
 const Content = ({ article }) => {
     //const [isTranslate, setIsTranslate] = useState(false);
