@@ -1,41 +1,41 @@
 import requests from "./requests_utils";
-
+//
 export function getSomeAnswerNew(params) {
-    return requests.get(`/answer/getSomeAnswerNew`, {
+    return requests.get(`/answer/getAllAnstoOneQ`, {
         params: params
     })
 }
 
-
+//
 export function getAnswer(params) {
-    return requests.get(`/answer/getAnswer`, {
+    return requests.get(`/answer/getAnswersByWho`, {
         params: params
     })
 }
-
+//
 export function newAnswer(data) {
-    return requests.post(`/answer/newAnswer?which_question=${data.which_question}&content=${data.content}`, {
+    return requests.post(`/answer/createAnswer?questionID=${data.which_question}&content=${data.content}`, {
         params: data
     })
     // return requests.post(`/answer/newAnswer?which_question=${data.which_question}&content=${data.content}`, data)
 }
-
+//
 export function evaluate(params) {
-    return requests.get(`/answer/evaluate`, {
+    return requests.post(`/answer/vote`, {
         params: params
     })
 }
-
+//
 export function getAnswersWriteBy(params) {
-    return requests.get(`/answer/getAnswersWriteBy`, {
+    return requests.get(`/answer/getAnswersByWho`, {
         params: params
     })
 }
-
+//
 export function updateAnswer(data) {
-    return requests.post(`/answer/updateAnswer?editId=${data.editId}&newContent=${data.newContent}`)
+    return requests.post(`/answer/updateAnswer?ID=${data.editId}&newContent=${data.newContent}`)
 }
-
+//
 export function deleteAnswer(data) {
-    return requests.post(`/answer/deleteAnswer?answerId=${data.answerId}`)
+    return requests.delete(`/answer/deleteAnswer?ID=${data.answerId}`)
 }
