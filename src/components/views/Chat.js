@@ -1,17 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Button, Card, Divider, Form, Image, Input, message } from "antd";
-import { useHistory, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { insertMessage, listMessage } from "helpers/api/message";
-import { getHasNew } from "helpers/api/user";
 import styles from "styles/views/chat.module.scss";
 const Chat = () => {
-    const history = useHistory();
+
     const location = useLocation();
     const [form] = Form.useForm();
     const [messages, setMessages] = useState([]);
     const [user, setUser] = useState({});
-    const [fromUserId, setfromUserId] = useState({});
-    const [toUserId, settoUserId] = useState({});
 
     useEffect(() => {
 
