@@ -9,7 +9,19 @@ const requests = axios.create({
     baseURL: "http://sopra-fs23-group-38-server.oa.r.appspot.com/",
     withCredentials: true, // Change to your desired host and port
 });
-
+requests.interceptors.request.use(
+    (config) => {
+        config.headers["content-type"] = "multipart/form-data";
+        config.headers["Access-Control-Allow-Origin"] = "*";
+        config.headers["Access-Control-Allow-Headers"] = "Origin, X-Requested-With, Content-Type, Accept";
+        config.headers['token'] = Cookies.get('token')
+        return config;
+    },
+    (error) => {
+        console.log(error);
+        return Promise.reject(error);
+    }
+);
 export const getServerSideProps = async (context) => {
     const { params } = context
     const { id } = params
