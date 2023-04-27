@@ -51,9 +51,9 @@ const Center = () => {
                 setQuestions(prevState => {
                     return prevState.map((item) => {
                         if (item.questionId !== id) {
-                            return item
+                            return item;
                         }
-                        return null
+                        return null;
                     }).filter(item => item !== null)
                 })
             } else {
@@ -97,9 +97,9 @@ const Center = () => {
                 setAnswers(prevState => {
                     return prevState.map((item) => {
                         if (item.answerId !== id) {
-                            return item
+                            return item;
                         }
-                        return null
+                        return null;
                     }).filter(item => item !== null)
                 })
             } else {
@@ -142,9 +142,9 @@ const Center = () => {
                 setComments(prevState => {
                     return prevState.map((item) => {
                         if (item.commentId !== id) {
-                            return item
+                            return item;
                         }
-                        return null
+                        return null;
                     }).filter(item => item !== null)
                 })
             } else {
