@@ -86,22 +86,7 @@ const QuestionDetail = ({  }) => {
         console.log(user)
     }, []);
 
-    const handleQuestionEvaluate = () => {
-        evaluateQuestion({
-            questionId: id,
-            likeOrDislike: 1
-        }).then(response => {
-            if (response.success === "true") {
-                message.info("点赞成功");
-                setArticle(preArticle => ({
-                    ...preArticle,
-                    likeCount: preArticle.likeCount + 1
-                }));
-            } else {
-                message.error("点赞失败");
-            }
-        });
-    };
+
     const handleEvaluate = (id) => {
         evaluate({
             ID: id,
