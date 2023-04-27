@@ -62,7 +62,7 @@ const Search = () => {
                     </Button>
 
           {items.map((item) => {
-            if (item.description !== "User" && item.description !== "Question" && item.description !== "Answer") {
+            if (item.description !== "用户" && item.description !== "文章") {
               return (
                 <div key={item.html_url} className={styles.content}>
                   <Card
