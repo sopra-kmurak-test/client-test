@@ -3,7 +3,7 @@ import styles from 'styles/views/center.module.scss';
 import {useEffect, useState} from "react";
 import {deleteQuestion, getQuestionsAskedBy, updateQuestion} from "helpers/api/question";
 import {deleteAnswer, getAnswersWriteBy, updateAnswer} from "helpers/api/answer";
-import {deleteComment, getCommentsBy, updateComment} from "helpers/api/comment";
+import {deleteComment, updateComment} from "helpers/api/comment";
 import {listNotifications} from "helpers/api//notification";
 import {useHistory} from "react-router-dom";
 
