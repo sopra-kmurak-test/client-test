@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import { Button, Col, Form, Input, message, Row } from "antd";
 import style from "styles/views/login.module.scss";
 import { useHistory } from "react-router-dom";
@@ -21,75 +21,54 @@ function Login() {
         Cookies.set("token", response.token);
         dispatch(handleLogin(values));
 
-        history.push("index/");
+        history.push('index/')
         window.location.reload();
         // history.push('/').then(() => {
         //   window.location.reload();
         // });
       }
-    });
-  };
+    })
+  }
 
   return (
-    <div className={style.container}>
-      <div className={style.main}>
-        <p className={style.formTitle}>
-          Please <span className={style.highlight}>Login</span> / Register !
-        </p>
-        <Form
-          name="loginForm"
-          style={{ width: "400px", textAlign: "center" }}
-          onFinish={onFinish}
-        >
-          <Form.Item
-            name="username"
-            rules={[{ required: true, message: "please input your username." }]}
+      <div className={style.container}>
+        <div className={style.main}>
+          <p className={style.formTitle}>Please <span className={style.highlight}>Login</span> / Register !</p>
+          <Form
+              name="loginForm"
+              style={{ width: '400px', textAlign: "center" }}
+              onFinish={onFinish}
           >
-            <Input
-              style={{ width: "240px" }}
-              size={"large"}
-              placeholder={"Username,No only number"}
-            />
-          </Form.Item>
+            <Form.Item
+                name="username"
+                rules={[{ required: true, message: "please input your username." }]}
+            >
+              <Input style={{ width: '240px' }} size={"large"} placeholder={"Username,No only number"} />
+            </Form.Item>
 
-          <Form.Item
-            name="password"
-            rules={[{ required: true, message: "please input your password." }]}
-          >
-            <Input.Password
-              style={{ width: "240px" }}
-              size={"large"}
-              placeholder={"Password"}
-            />
-          </Form.Item>
+            <Form.Item
+                name="password"
+                rules={[{ required: true, message: "please input your password." }]}
+            >
+              <Input.Password style={{ width: '240px' }} size={"large"} placeholder={"Password"} />
+            </Form.Item>
 
-          <Row style={{ marginTop: "48px" }}>
-            <Col span={12}>
-              <Button
-                style={{ backgroundColor: "#6F3BF5", width: 160 }}
-                shape={"round"}
-                type="primary"
-                size={"large"}
-                htmlType="submit"
-              >
-                Login
-              </Button>
-            </Col>
+            <Row style={{ marginTop: '48px' }}>
+              <Col span={12}>
+                <Button style={{ backgroundColor: '#6F3BF5', width: 160 }} shape={"round"} type="primary" size={"large"} htmlType="submit">
+                  Login
+                </Button>
+              </Col>
 
-            <Col span={12}>
-              <Button
-                onClick={() => history.push("/register")}
-                style={{ borderColor: "#6F3BF5", color: "#6F3BF5", width: 160 }}
-                shape={"round"}
-                size={"large"}
-              >
-                Register
-              </Button>
-            </Col>
-          </Row>
-        </Form>
+              <Col span={12}>
+                <Button onClick={() => history.push('/register')} style={{ borderColor: '#6F3BF5', color: '#6F3BF5', width: 160 }} shape={"round"} size={"large"}>
+                  Register
+                </Button>
+              </Col>
+            </Row>
+          </Form>
+        </div>
       </div>
-    </div>
   );
 }
 /**
