@@ -10,17 +10,20 @@ const Index = Home => {
     const [items, setItems] = useState([]);
     const [page, setPage] = useState(1);
     const [total, setTotal] = useState(0);
+    const [user, setUser] = useState({});
 
     const handleClick = () => {
         history.push("/question/create");
     };
 
     useEffect(() => {
+        setUser(JSON.parse(localStorage.getItem("user")));
+        console.log(user)
         getTotalPageCount().then((response) => {
             if (response.success === "false") {
                 message.error(response.reason);
             } else {
-                setTotal(response.totalPageCount);
+                setTotal(response.howmanypages);
             }
         });
 
@@ -68,10 +71,10 @@ const Index = Home => {
                                             id: item.question.id,
                                             headImg: "error",
                                             title: item.question.title,
-                                            name: item.questionerNickName,
-                                            createTime: item.question.submit_time,
+                                            name: item.who_asks_name,
+                                            createTime: item.question.change_time,
                                             cover: "error",
-                                            description: item.question.detail,
+                                            description: item.question.description,
                                             likeCount: item.likeCount,
                                             bio: "",
                                             email: "",
