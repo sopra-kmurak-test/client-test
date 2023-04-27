@@ -50,11 +50,11 @@ const AnswerComments = (  ) => {
         fetchData();
     }, [id]);
 
-  const handleReply = (username) => {
-    form.setFieldsValue({
-      content: `Reply to ${username}: `,
-    });
-  };
+    const handleReply = (username) => {
+        form.setFieldsValue({
+            content: `Reply to ${username}: `
+        });
+    };
 
     const handleClick = (values) => {
 
