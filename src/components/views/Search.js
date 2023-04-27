@@ -92,6 +92,8 @@ const Search = () => {
                   </Card>
                 </div>
               );
+            } else {
+              return null
             }
           })}
         </Form>

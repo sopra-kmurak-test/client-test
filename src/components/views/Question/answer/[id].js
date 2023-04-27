@@ -58,7 +58,8 @@ const AnswerComments = ({ comment, initAnswer }) => {
   const router = useHistory();
   const { id } = router.query;
   const [form] = Form.useForm();
-  const [answer, setAnswer] = useState(initAnswer);
+  //const [answer, setAnswer] = useState(initAnswer);
+  const answer = useState(initAnswer)[0];
   const [comments, setComments] = useState(comment);
 
   const handleReply = (username) => {

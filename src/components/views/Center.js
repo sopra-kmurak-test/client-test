@@ -49,11 +49,12 @@ const Center = () => {
             if (response.success && response.success === 'true') {
                 message.info('Success')
                 setQuestions(prevState => {
-                    return prevState.filter((item) => {
+                    return prevState.map((item) => {
                         if (item.questionId !== id) {
                             return item
                         }
-                    })
+                        return null
+                    }).filter(item => item !== null)
                 })
             } else {
                 message.error('Failed')
@@ -72,11 +73,11 @@ const Center = () => {
                 setEditQuestionOpen(false)
                 setQuestions(prevState => {
                     return prevState.map((item) => {
-                        if (item.questionId === question.questionId) {
-                            item.title = values.title
+                        if (item.answerId !== id) {
+                            return item
                         }
-                        return item
-                    })
+                        return null
+                    }).filter(item => item !== null)
                 })
             } else {
                 message.error('Failed')
@@ -138,11 +139,12 @@ const Center = () => {
             if (response.success && response.success === 'true') {
                 message.info('Success')
                 setComments(prevState => {
-                    return prevState.filter((item) => {
+                    return prevState.map((item) => {
                         if (item.commentId !== id) {
                             return item
                         }
-                    })
+                        return null
+                    }).filter(item => item !== null)
                 })
             } else {
                 message.error('Failed')
