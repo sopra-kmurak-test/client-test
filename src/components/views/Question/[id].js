@@ -10,7 +10,7 @@ import useAuth from "helpers/api/auth";
 import styles from "styles/views/question.create.module.scss";
 import Cookies from "js-cookie";
 const requests = axios.create({
-    baseURL: "http://sopra-fs23-group-38-server.oa.r.appspot.com/",
+    baseURL: "https://sopra-fs23-group-38-server.oa.r.appspot.com/",
     withCredentials: true,
     // baseURL: process.env.API_HOST // Change to your desired host and port
 });
