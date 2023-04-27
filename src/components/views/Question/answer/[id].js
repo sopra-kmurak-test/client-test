@@ -2,7 +2,6 @@ import styles from "styles/views/question.create.module.scss";
 import {Button, Card, Col, Divider, Form, Image, Input, message, Row} from "antd";
 import React, {useEffect, useState} from "react";
 import {getTopComments, insertComment} from "helpers/api/comment";
-import {getAnswer} from "helpers/api/answer";
 import axios from "axios";
 import useAuth from "helpers/api/auth";
 import { useHistory, useParams } from "react-router-dom";
